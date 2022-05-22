@@ -39,11 +39,11 @@ module.exports = {
     },
     proxy: {
       '/api': {
-        target: 'http://localhost:8090/',
+        target: process.env.VUE_APP_BASE_API,
         ws: true,
         changeOrigin: true,
         pathRewrite: {
-          '^/api': ''
+          '^/api': 'api'
         }
       }
     }

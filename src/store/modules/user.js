@@ -5,8 +5,8 @@ import { resetRouter } from '@/router'
 const getDefaultState = () => {
   return {
     token: getToken(),
-    name: '',
-    avatar: ''
+    username: getUsername(),
+    user: {}
   }
 }
 
@@ -19,11 +19,11 @@ const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
   },
-  SET_NAME: (state, name) => {
-    state.name = name
+  SET_USERNAME: (state, username) => {
+    state.username = username
   },
-  SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
+  SET_USER: (state, user) => {
+    state.user = user
   }
 }
 
@@ -31,11 +31,14 @@ const actions = {
   // user login
   login({ commit }, userInfo) {
     const { username, password } = userInfo
+    // console.log(userInfo)
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
+        const { token, username } = response
+        commit('SET_TOKEN', token)
+        commit('SET_USERNAME', username)
+        setToken(token)
+        setUsername(username)
         resolve()
       }).catch(error => {
         reject(error)
@@ -46,18 +49,13 @@ const actions = {
   // get user info
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
-
-        if (!data) {
-          return reject('Verification failed, please Login again.')
+      getInfo(state.username).then(response => {
+        const { content } = response
+        if (!content) {
+          return reject('验证失败,请重新登录')
         }
-
-        const { name, avatar } = data
-
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        resolve(data)
+        commit('SET_USER', content)
+        resolve(content)
       }).catch(error => {
         reject(error)
       })
