@@ -1,15 +1,15 @@
 import request from '@/utils/request'
 
-export function alltopProject() {
+export function allSecondProject() {
   return request({
-    url: '/topProject/all',
-    method: 'GET'
+    url: '/secondProject/all',
+    method: 'GET',
   })
 }
 
 export function all(params) {
   return request({
-    url: '/topProject/all',
+    url: '/secondProject/all',
     method: 'GET',
     params: params
   })
@@ -17,7 +17,7 @@ export function all(params) {
 
 export function add(data) {
   return request({
-    url: '/topProject/add',
+    url: '/secondProject/add',
     method: 'POST',
     data
   })
@@ -25,23 +25,23 @@ export function add(data) {
 
 export function edit(data) {
   return request({
-    url: '/topProject/edit',
+    url: '/secondProject/edit',
     method: 'PUT',
     data
   })
 }
 
-export function del(tid) {
+export function del(sid) {
   return request({
-    url: '/topProject/del',
+    url: '/secondProject/del',
     method: 'DELETE',
-    params: { tid: tid }
+    params: { sid: sid }
   })
 }
 
 export function blurry(data) {
   return request({
-    url: '/topProject/blurry',
+    url: '/secondProject/blurry',
     method: 'POST',
     data
   })

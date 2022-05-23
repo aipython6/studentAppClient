@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <el-row :gutter="10">
-      <el-col :span="7" v-if="searchType === '发布时间'">
+      <el-col :span="9" v-if="searchType === '发布时间'">
         <el-date-picker
           v-model="searchVal"
           type="daterange"
@@ -10,7 +10,7 @@
           end-placeholder="结束日期"
         />
       </el-col>
-      <el-col :span="4" v-else>
+      <el-col :span="5" v-else>
         <el-input
           v-model="searchVal"
           :placeholder="'按' + searchType + '搜索'"
@@ -20,7 +20,7 @@
           @keyup.enter.native="handleFilter(searchType)"
         />
       </el-col>
-      <el-col :span="3">
+      <el-col :span="4">
         <el-select
           v-model="searchType"
           placeholder="请选择搜索类型"

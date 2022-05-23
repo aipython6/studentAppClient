@@ -11,7 +11,7 @@
       <el-table
         :key="tableKey"
         v-loading="listLoading"
-        :data="searchList"
+        :data="list"
         border
         fit
         highlight-current-row
@@ -150,9 +150,10 @@
 <script>
 import Header from "@/components/Header";
 import Pagination from "@/components/Pagination";
+import { getYMD } from '@/utils/handleDate'
 import { mapGetters } from "vuex";
 import { getUsername } from "../../../utils/auth";
-import { all, edit, add, del } from "@/api/topProject/topProject";
+import { all, edit, add, del, blurry } from "@/api/topProject/topProject";
 export default {
   components: { Header, Pagination },
   data() {
@@ -172,8 +173,7 @@ export default {
       typeItems: ["课程大类", "发布时间"],
       tableKey: 0,
       listLoading: false,
-      searchList: [],
-      list: null,
+      list: [],
       temp: {
         name: "",
         enabled: 0,
@@ -182,7 +182,7 @@ export default {
       rules: {
         name: [{ required: true, message: "请输入大类名称", trigger: "blur" }],
         create_by: [
-          { required: true, message: "请输入大类名称", trigger: "blur" },
+          { required: true, message: "请输入创建者名称", trigger: "blur" },
         ],
         enabled: [
           { required: true, message: "请选择是否可用", trigger: "blur" },
@@ -201,14 +201,20 @@ export default {
       row.xh = rowIndex + 1;
     },
     handleFilter({ searchType, searchVal }) {
-      if (searchType === "课程大类") {
-        this.searchList = this.list.filter((item) => {
-          return item.title.match(searchVal);
-        });
-      } else if (searchType === "发布时间") {
-        this.searchList = this.list.filter((item) => {
-          return item.createTime.match(searchVal);
-        });
+      if (searchType === '课程大类') {
+        const temp = Object.assign({}, { name: searchVal }, this.listQuery)
+        blurry(temp).then(res => {
+          this.list = res.content
+          this.total = res.total
+        })
+      } else if(searchType === '发布时间') {
+        const start = getYMD(searchVal[0])
+        const end = getYMD(searchVal[1])
+        const temp = Object.assign({}, { create_time: [start, end] }, this.listQuery)
+        blurry(temp).then(res => {
+          this.list = res.content
+          this.total = res.total
+        })
       }
     },
     getAll() {

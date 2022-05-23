@@ -1,15 +1,15 @@
 import request from '@/utils/request'
 
-export function alltopProject() {
+export function allbookType() {
   return request({
-    url: '/topProject/all',
+    url: '/bookType/all',
     method: 'GET'
   })
 }
 
 export function all(params) {
   return request({
-    url: '/topProject/all',
+    url: '/bookType/all',
     method: 'GET',
     params: params
   })
@@ -17,7 +17,7 @@ export function all(params) {
 
 export function add(data) {
   return request({
-    url: '/topProject/add',
+    url: '/bookType/add',
     method: 'POST',
     data
   })
@@ -25,23 +25,23 @@ export function add(data) {
 
 export function edit(data) {
   return request({
-    url: '/topProject/edit',
+    url: '/bookType/edit',
     method: 'PUT',
     data
   })
 }
 
-export function del(tid) {
+export function del(btid) {
   return request({
-    url: '/topProject/del',
+    url: '/bookType/del',
     method: 'DELETE',
-    params: { tid: tid }
+    params: { btid: btid }
   })
 }
 
 export function blurry(data) {
   return request({
-    url: '/topProject/blurry',
+    url: '/bookType/blurry',
     method: 'POST',
     data
   })
