@@ -55,107 +55,70 @@ export const constantRoutes = [
     }]
   },
 
+  // 课程管理
   {
-    path: '/example',
+    path: '/project',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
+    redirect: '/project/topProject',
+    meta: { title: '课程管理', icon: 'el-icon-s-management'},
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        path: 'topProject',
+        name: 'TopProject',
+        component: () => import('@/views/project/topProject/index'),
+        meta: { title: '课程大类', icon: 'education'}
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
-
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
-
-  {
-    path: '/nested',
-    component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: 'Nested',
-      icon: 'nested'
-    },
-    children: [
-      {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
+        path: 'secondProject',
+        name: 'SecondProject',
+        component: () => import('@/views/project/secondProject/index'),
+        meta: { title: '二级类目', icon: 'clipboard'}
       },
       {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        name: 'Menu2',
-        meta: { title: 'menu2' }
+        path: 'bookType',
+        name: 'BookType',
+        component: () => import('@/views/project/bookType/index'),
+        meta: { title: '课本类型', icon: 'tree'}
+      },
+      {
+        path: 'bookList',
+        name: 'BookList',
+        component: () => import('@/views/project/bookList/index'),
+        meta: { title: '课本列表', icon: 'list'}
+      },
+      {
+        path: 'bookDetail',
+        name: 'BookDetail',
+        component: () => import('@/views/project/bookDetail/index'),
+        meta: { title: '课本详情', icon: 'documentation'}
       }
     ]
   },
 
+  // 系统管理
   {
-    path: 'external-link',
+    path: '/setting',
     component: Layout,
+    redirect: '/setting/user',
+    meta: { title: '系统管理', icon: 'el-icon-setting'},
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        path: 'user',
+        name: 'User',
+        component: () => import('@/views/setting/user/index'),
+        meta: { title: '用户管理', icon: 'peoples' }
+      },
+      {
+        path: 'dept',
+        name: 'Dept',
+        component: () => import('@/views/setting/user/index'),
+        meta: { title: '部门管理', icon: 'el-icon-news' }
+      },
+      {
+        path: 'wechat',
+        name: 'Wechat',
+        component: () => import('@/views/setting/user/index'),
+        meta: { title: '微信管理', icon: 'wechat' }
       }
     ]
   },
