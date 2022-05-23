@@ -119,7 +119,13 @@ export const constantRoutes = [
         name: 'Wechat',
         component: () => import('@/views/setting/user/index'),
         meta: { title: '微信管理', icon: 'wechat' }
-      }
+      },
+      {
+        path: 'link',
+        name: 'Link',
+        component: () => import('@/views/setting/link/index'),
+        meta: { title: '链接管理', icon: 'link' }
+      },
     ]
   },
 

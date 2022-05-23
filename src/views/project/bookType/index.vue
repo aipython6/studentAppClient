@@ -184,13 +184,13 @@
 </template>
 <script>
 import Header from "@/components/Header";
-import bgColor from '@/components/bgColor'
+import bgColor from "@/components/bgColor";
 import Pagination from "@/components/Pagination";
-import { getYMD } from '@/utils/handleDate'
+import { getYMD } from "@/utils/handleDate";
 import { mapGetters } from "vuex";
 import { getUsername } from "../../../utils/auth";
-import { all, edit, add, del } from '@/api/bookType/bookType'
-import { allSecondProject } from '@/api/secondProject/secondProject'
+import { all, edit, add, del } from "@/api/bookType/bookType";
+import { allSecondProject } from "@/api/secondProject/secondProject";
 export default {
   components: { Header, Pagination, bgColor },
   data() {
@@ -209,13 +209,13 @@ export default {
       dialogStatus: "",
       dialogFormVisible: false,
       timeout: null,
-      typeItems: ['课本类型', '发布时间'],
+      typeItems: ["课本类型", "发布时间"],
       temp: {
         name: "",
         enabled: 0,
-        bgColor: '',
-        sid: '',
-        pname: '',
+        bgColor: "",
+        sid: "",
+        pname: "",
         create_by: getUsername(),
       },
       // 父级类目列表
@@ -231,20 +231,22 @@ export default {
           { required: true, message: "请选择是否可用", trigger: "blur" },
         ],
         bgColor: [
-          { required: true, message: "请选择二级类目背景颜色", trigger: "blur" },
+          {
+            required: true,
+            message: "请选择二级类目背景颜色",
+            trigger: "blur",
+          },
         ],
-        pname: [
-          { required: true, message: "请选择上级类目", trigger: "blur" },
-        ]
+        pname: [{ required: true, message: "请选择上级类目", trigger: "blur" }],
       },
     };
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(["user"]),
   },
   mounted() {
     this.getAll();
-    this.getSecondProjectList()
+    this.getSecondProjectList();
   },
   methods: {
     rowClassName({ row, rowIndex }) {
@@ -262,33 +264,37 @@ export default {
       });
     },
     getSecondProjectList() {
-      allSecondProject(this.listQuery).then(res => {
-        const { content } = res
-        this.secondProjectList = content.map(e => {
+      allSecondProject(this.listQuery).then((res) => {
+        const { content } = res;
+        this.secondProjectList = content.map((e) => {
           return {
             sid: e.sid,
-            value: e.name
-          }
-        })
-      })
+            value: e.name,
+          };
+        });
+      });
     },
     handleFilter({ searchType, searchVal }) {
-      if (searchType === '课本类型') {
-        const temp = Object.assign({}, { name: searchVal }, this.listQuery)
-        blurry(temp).then(res => {
-          this.list = res.content
-          this.total = res.total
-        })
-      } else if(searchType === '发布时间') {
-        const start = getYMD(searchVal[0])
-        const end = getYMD(searchVal[1])
-        const temp = Object.assign({}, { create_time: [start, end] }, this.listQuery)
-        blurry(temp).then(res => {
-          this.list = res.content
-          this.total = res.total
-        })
+      if (searchType === "课本类型") {
+        const temp = Object.assign({}, { name: searchVal }, this.listQuery);
+        blurry(temp).then((res) => {
+          this.list = res.content;
+          this.total = res.total;
+        });
+      } else if (searchType === "发布时间") {
+        const start = getYMD(searchVal[0]);
+        const end = getYMD(searchVal[1]);
+        const temp = Object.assign(
+          {},
+          { create_time: [start, end] },
+          this.listQuery
+        );
+        blurry(temp).then((res) => {
+          this.list = res.content;
+          this.total = res.total;
+        });
       } else {
-        this.getAll()
+        this.getAll();
       }
     },
 
@@ -296,11 +302,11 @@ export default {
       this.temp = {
         name: "",
         enabled: 0,
-        bgColor: '#845EC2',
-        sid: '',
-        pname: '',
+        bgColor: "#845EC2",
+        sid: "",
+        pname: "",
         create_by: getUsername(),
-      }
+      };
     },
 
     handleCreate(val) {
@@ -372,7 +378,13 @@ export default {
 
     handleSetStatus(row) {
       const { btid, sid, bgColor, name, enabled } = row;
-      const temp = { btid: btid, sid: sid, name: name, enabled: enabled, bgColor: bgColor };
+      const temp = {
+        btid: btid,
+        sid: sid,
+        name: name,
+        enabled: enabled,
+        bgColor: bgColor,
+      };
       this.$confirm("是否更改状态?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -416,7 +428,7 @@ export default {
     },
 
     querySearchAsync(queryString, cb) {
-      const secondProjectList = this.secondProjectList
+      const secondProjectList = this.secondProjectList;
       const results = queryString
         ? secondProjectList.filter(this.createStateFilter(queryString))
         : secondProjectList;
@@ -433,11 +445,11 @@ export default {
     },
     // 选择草稿标题后触发
     handleSelect(item) {
-      this.temp.sid = item.sid
+      this.temp.sid = item.sid;
     },
 
-    handleDownload() {}
-  }
+    handleDownload() {},
+  },
 };
 </script>
 <style lang="scss" scoped>
