@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-     <Header
+    <Header
       :size="'small'"
       :typeItems="typeItems"
       :roles="[user.role]"
@@ -170,15 +170,15 @@
   </div>
 </template>
 <script>
-import Header from '@/components/Header'
+import Header from "@/components/Header";
 import Pagination from "@/components/Pagination";
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 import { getYMD } from "@/utils/handleDate";
-import { add, edit, del, all } from '@/api/bookDetail/bookChapter'
-import { allbookList } from '@/api/bookList/bookList'
+import { add, edit, del, all } from "@/api/bookDetail/bookChapter";
+import { allbookList } from "@/api/bookList/bookList";
 import { getUsername } from "../../../../utils/auth";
 export default {
-  name: 'bookChapter',
+  name: "bookChapter",
   components: { Header, Pagination },
   data() {
     return {
@@ -196,13 +196,12 @@ export default {
       dialogStatus: "",
       dialogFormVisible: false,
       timeout: null,
-      typeItems: ['课本名称', '发布时间'],
+      typeItems: ["课本名称", "发布时间"],
       dialogStatus: "",
       dialogFormVisible: false,
       timeout: null,
       list: [],
       listLoading: false,
-      typeItems: ["课本类型", "发布时间"],
       temp: {
         name: "",
         enabled: 0,
@@ -220,15 +219,15 @@ export default {
         ],
         pname: [{ required: true, message: "请选择上级类目", trigger: "blur" }],
       },
-      bookList: []
+      bookList: [],
     };
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(["user"]),
   },
   mounted() {
-    this.getAll()
-    this.getBookList()
+    this.getAll();
+    this.getBookList();
   },
   methods: {
     rowClassName({ row, rowIndex }) {
@@ -430,8 +429,7 @@ export default {
       this.temp.blid = item.blid;
     },
 
-    handleDownload() {}
-  }
+    handleDownload() {},
+  },
 };
 </script>
-<style lang="scss" scoped></style>

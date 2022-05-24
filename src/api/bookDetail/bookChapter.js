@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function allBookChapterList() {
+export function allBookChapter() {
   return request({
     url: '/bookList/all',
     method: 'GET'
