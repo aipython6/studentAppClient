@@ -7,10 +7,11 @@ export function allbookList() {
   })
 }
 
-export function all() {
+export function all(params) {
   return request({
     url: '/book/all',
     method: 'GET',
+    params: params
   })
 }
 

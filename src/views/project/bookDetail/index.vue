@@ -1,11 +1,8 @@
 <template>
   <div class="container">
-      <el-tabs v-model="activeName" type="border-card">
-      <el-tab-pane label="一级章节管理" name="first">
+    <el-tabs v-model="activeName" type="border-card">
+      <el-tab-pane label="章节标题管理" name="first">
         <bookChapter />
-      </el-tab-pane>
-      <el-tab-pane label="二级章节管理" name="second">
-        <chapterChildren />
       </el-tab-pane>
       <el-tab-pane label="章节内容管理" name="third">
         <chapterContent />
@@ -14,20 +11,19 @@
   </div>
 </template>
 <script>
-import bookChapter from './bookChpater'
-import chapterChildren from './chapterChildren'
-import chapterContent from './chapterContent'
+import bookChapter from "./bookChpater";
+import chapterContent from "./chapterContent";
 export default {
-  components: { bookChapter, chapterChildren, chapterContent },
+  components: { bookChapter, chapterContent },
   data() {
     return {
-      activeName: 'first'
+      activeName: "first",
     };
   },
 };
 </script>
 <style lang="scss" scoped>
-  .container {
-    margin: 15px;
-  }
+.container {
+  margin: 15px;
+}
 </style>

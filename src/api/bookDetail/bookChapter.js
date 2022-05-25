@@ -15,6 +15,15 @@ export function all(params) {
   })
 }
 
+// 根据bid获取对应的name
+export function getNameBybid(bid) {
+  return request({
+    url: '/bookChapter/getNameBybid',
+    method: 'GET',
+    params: { bid: bid }
+  })
+}
+
 export function add(data) {
   return request({
     url: '/bookChapter/add',
@@ -31,11 +40,11 @@ export function edit(data) {
   })
 }
 
-export function del(bcid) {
+export function del(bid) {
   return request({
     url: '/bookChapter/del',
     method: 'DELETE',
-    params: { bcid: bcid }
+    params: { bid: bid }
   })
 }
 
