@@ -1,129 +1,29 @@
 <template>
   <div class="container">
-    <Header
-      :size="'small'"
-      :typeItems="typeItems"
-      :roles="[user.role]"
-      @handleFilter="handleFilter"
-      @handleDownload="handleDownload"
-      @handleCreate="handleCreate"
-    />
-    <div class="table-data">
-      <el-table
-        :key="tableKey"
-        v-loading="listLoading"
-        :data="list"
-        border
-        fit
-        highlight-current-row
-        :row-class-name="rowClassName"
-        :default-sort="{ prop: 'create_time' }"
-        style="width: 100%"
-      >
-        <el-table-column
-          label="序号"
-          align="center"
-          prop="xh"
-          min-width="5px"
-        />
-        <el-table-column
-          label="课本名称"
-          prop="pname"
-          align="center"
-          min-width="11px"
-          :show-overflow-tooltip="true"
-        >
-          <template slot-scope="{ row }">
-            <span>{{ row.pname }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="章节名称"
-          prop="name"
-          align="center"
-          min-width="15px"
-          :show-overflow-tooltip="true"
-        >
-          <template slot-scope="{ row }">
-            <span>{{ row.name }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="发布时间"
-          prop="create_time"
-          align="center"
-          min-width="17px"
-          :show-overflow-tooltip="true"
-        >
-          <template slot-scope="{ row }">
-            <i class="el-icon-time" style="margin-right: 3px" />
-            <span>{{ row.create_time }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="发布人"
-          prop="create_by"
-          align="center"
-          min-width="9px"
-          :show-overflow-tooltip="true"
-        >
-          <template slot-scope="{ row }">
-            <span>{{ row.create_by }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="是否可用"
-          prop="enabled"
-          align="center"
-          min-width="12px"
-        >
-          <template slot-scope="{ row }">
-            <el-switch
-              v-model="row.enabled"
-              :disabled="user.role !== 'admin'"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-              inactive-text="否"
-              active-text="是"
-              @change="handleSetStatus(row)"
-            />
-          </template>
-        </el-table-column>
-        <el-table-column
-          label="操作"
-          align="center"
-          min-width="17px"
-          class-name="small-padding fixed-width"
-        >
-          <template slot-scope="{ row, $index }">
-            <el-button
-              type="primary"
-              size="mini"
-              icon="el-icon-edit"
-              :disabled="user.role !== 'admin'"
-              @click="handleUpdate(row)"
-              >编辑</el-button
-            >
-            <el-button
-              v-if="row.status != 'deleted'"
-              size="mini"
-              type="danger"
-              icon="el-icon-delete"
-              :disabled="user.role !== 'admin'"
-              @click="handleDelete(row, $index)"
-              >删除</el-button
-            >
-          </template>
-        </el-table-column>
-      </el-table>
-      <pagination
-        v-show="total > 0"
-        :total="total"
-        :page.sync="listQuery.page"
-        :limit.sync="listQuery.limit"
-        @pagination="getAll"
-      />
-    </div>
+    <el-tree
+      :data="list"
+      show-checkbox
+      node-key="id"
+      default-expand-all
+      :expand-on-click-node="false">
+      <span class="custom-tree-node" slot-scope="{ node, data }">
+        <span>{{ node.label }}</span>
+        <span style="margin-left: 10px;">
+          <el-button
+            type="text"
+            size="mini"
+            @click="() => append(data)">
+            添加
+          </el-button>
+          <el-button
+            type="text"
+            size="mini"
+            @click="() => remove(node, data)">
+            删除
+          </el-button>
+        </span>
+      </span>
+    </el-tree>
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form
         ref="dataForm"
@@ -175,19 +75,13 @@ import Pagination from "@/components/Pagination";
 import { mapGetters } from "vuex";
 import { getYMD } from "@/utils/handleDate";
 import { add, edit, del, all } from "@/api/bookDetail/bookChapter";
-import { allbookList } from "@/api/bookList/bookList";
+import { allbookList } from "@/api/bookDetail/book";
 import { getUsername } from "../../../../utils/auth";
 export default {
   name: "bookChapter",
   components: { Header, Pagination },
   data() {
     return {
-      tableKey: 0,
-      listQuery: {
-        page: 1,
-        limit: 10,
-      },
-      total: 0,
       // 对话框title
       textMap: {
         update: "更新一级章节",
@@ -196,7 +90,6 @@ export default {
       dialogStatus: "",
       dialogFormVisible: false,
       timeout: null,
-      typeItems: ["课本名称", "发布时间"],
       dialogStatus: "",
       dialogFormVisible: false,
       timeout: null,
@@ -230,15 +123,29 @@ export default {
     this.getBookList();
   },
   methods: {
-    rowClassName({ row, rowIndex }) {
-      row.xh = rowIndex + 1;
+
+    append(data) {
+      console.log(data)
+      // const newChild = { id: id++, label: 'testtest', children: [] };
+      // if (!data.children) {
+      //   this.$set(data, 'children', []);
+      // }
+      // data.children.push(newChild);
     },
+
+    remove(node, data) {
+      console.log(node)
+      // const parent = node.parent;
+      // const children = parent.data.children || parent.data;
+      // const index = children.findIndex(d => d.id === data.id);
+      // children.splice(index, 1);
+    },
+    
     getAll() {
-      all(this.listQuery).then((res) => {
+      all().then((res) => {
         this.listLoading = true;
-        const { content, total } = res;
+        const { content } = res;
         this.list = content;
-        this.total = total;
         setTimeout(() => {
           this.listLoading = false;
         }, 1000);
@@ -257,29 +164,7 @@ export default {
       });
     },
 
-    handleFilter({ searchType, searchVal }) {
-      if (searchType === "课本类型") {
-        const temp = Object.assign({}, { name: searchVal }, this.listQuery);
-        blurry(temp).then((res) => {
-          this.list = res.content;
-          this.total = res.total;
-        });
-      } else if (searchType === "发布时间") {
-        const start = getYMD(searchVal[0]);
-        const end = getYMD(searchVal[1]);
-        const temp = Object.assign(
-          {},
-          { create_time: [start, end] },
-          this.listQuery
-        );
-        blurry(temp).then((res) => {
-          this.list = res.content;
-          this.total = res.total;
-        });
-      } else {
-        this.getAll();
-      }
-    },
+
 
     resetTemp() {
       this.temp = {

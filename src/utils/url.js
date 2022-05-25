@@ -1,1 +1,1 @@
-export const coverImgUpload = 'http://localhost:8090/api/bookList/upload'
+export const coverImgUpload = 'http://localhost:8090/api/book/upload'

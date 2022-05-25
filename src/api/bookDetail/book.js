@@ -2,22 +2,21 @@ import request from '@/utils/request'
 
 export function allbookList() {
   return request({
-    url: '/bookList/all',
+    url: '/book/all',
     method: 'GET'
   })
 }
 
-export function all(params) {
+export function all() {
   return request({
-    url: '/bookList/all',
+    url: '/book/all',
     method: 'GET',
-    params: params
   })
 }
 
 export function add(data) {
   return request({
-    url: '/bookList/add',
+    url: '/book/add',
     method: 'POST',
     data
   })
@@ -25,23 +24,23 @@ export function add(data) {
 
 export function edit(data) {
   return request({
-    url: '/bookList/edit',
+    url: '/book/edit',
     method: 'PUT',
     data
   })
 }
 
-export function del(blid) {
+export function del(bid) {
   return request({
-    url: '/bookList/del',
+    url: '/book/del',
     method: 'DELETE',
-    params: { btid: blid }
+    params: { bid: bid }
   })
 }
 
 export function blurry(data) {
   return request({
-    url: '/bookList/blurry',
+    url: '/book/blurry',
     method: 'POST',
     data
   })

@@ -244,7 +244,7 @@ import Pagination from "@/components/Pagination";
 import { getYMD } from "@/utils/handleDate";
 import { mapGetters } from "vuex";
 import { getUsername, getToken } from "../../../utils/auth";
-import { all, edit, add, del } from "@/api/bookList/bookList";
+import { all, edit, add, del } from "@/api/bookDetail/book";
 import { allbookType } from "@/api/bookType/bookType";
 import { coverImgUpload } from "@/utils/url";
 export default {
@@ -453,7 +453,7 @@ export default {
     handleSetStatus(row) {
       const {
         btid,
-        blid,
+        bid,
         coverImg,
         name,
         enabled,
@@ -463,7 +463,7 @@ export default {
       } = row;
       const temp = {
         btid: btid,
-        blid: blid,
+        bid: bid,
         name: name,
         enabled: enabled,
         coverImg: coverImg,
@@ -494,13 +494,13 @@ export default {
     },
 
     handleDelete(row, index) {
-      const { blid } = row;
+      const { bid } = row;
       this.$confirm("是否删除?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       }).then(() => {
-        del(blid).then((res) => {
+        del(bid).then((res) => {
           const { msg } = res;
           this.getAll();
           this.$notify({
