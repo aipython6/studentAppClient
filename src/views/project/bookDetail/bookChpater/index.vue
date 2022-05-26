@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+    <div style="font-size: 12px; color: red; margin-bottom: 5px;">
+    注意:课本添加按钮是添加1级章节;1级章节按钮是添加2级章节;2级章节按钮跳转到新页面来添加具体的章节内容
+    </div>
     <el-input
       placeholder="输入课本名称过滤"
       v-model="filterText"
@@ -73,7 +76,7 @@
         <el-form-item label="类目名称" prop="name">
           <el-input v-model="temp1.pname" disabled />
         </el-form-item>
-        <el-form-item label="章节名称" prop="pname">
+        <el-form-item label="章节名称" prop="name">
           <el-input v-model="temp1.name" placeholder="请输入一级章节名称" />
         </el-form-item>
         <el-form-item label="创建人" prop="create_by">
@@ -114,7 +117,7 @@
         <el-form-item label="类目名称" prop="name">
           <el-input v-model="temp2.pname" disabled />
         </el-form-item>
-        <el-form-item label="章节名称" prop="pname">
+        <el-form-item label="章节名称" prop="name">
           <el-input v-model="temp2.name" placeholder="请输入二级章节名称" />
         </el-form-item>
         <el-form-item label="创建人" prop="create_by">
@@ -151,7 +154,7 @@ import {
   all,
   getNameBybid,
 } from "@/api/bookDetail/bookChapter";
-import { getUsername } from "../../../../utils/auth";
+import { getUsername, setBid } from "../../../../utils/auth";
 export default {
   name: "bookChapter",
   components: { Header, Pagination },
@@ -265,6 +268,7 @@ export default {
         create_by: getUsername(),
       };
     },
+    // 添加按钮
     async handleCreate(bid, pid, type) {
       const { pname } = await getNameBybid(bid);
       // 一级章节
@@ -283,6 +287,9 @@ export default {
         this.$nextTick(() => {
           this.$refs["dataForm2"].clearValidate();
         });
+        // 跳转到新页面,用于添加具体的二级章节内容
+      } else if (type === 2) {
+        this.scan(bid)
       }
     },
     append(data) {
@@ -451,6 +458,10 @@ export default {
           });
         });
       });
+    },
+    scan (bid) {
+      setBid(bid)
+      this.$router.push({ name: 'ChapterContent' })
     },
   },
 };

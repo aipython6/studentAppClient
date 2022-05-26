@@ -4,9 +4,6 @@
       <el-tab-pane label="章节标题管理" name="first">
         <bookChapter />
       </el-tab-pane>
-      <el-tab-pane label="章节内容管理" name="third">
-        <chapterContent />
-      </el-tab-pane>
     </el-tabs>
   </div>
 </template>

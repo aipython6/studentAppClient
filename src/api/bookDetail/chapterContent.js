@@ -1,12 +1,13 @@
 import request from '@/utils/request'
 
-export function allChapterContentList() {
+export function allBybid(bid) {
   return request({
-    url: '/bookList/all',
-    method: 'GET'
+    url: '/chapterContent/allBybid',
+    method: 'GET',
+    params: { bid: bid }
   })
 }
-
+// 获取所有的2级标题下的所有课本内容(为图片格式)
 export function all(params) {
   return request({
     url: '/chapterContent/all',
@@ -31,18 +32,10 @@ export function edit(data) {
   })
 }
 
-export function del(cid) {
+export function del(ccid) {
   return request({
     url: '/chapterContent/del',
     method: 'DELETE',
-    params: { cid: cid }
-  })
-}
-
-export function blurry(data) {
-  return request({
-    url: '/chapterContent/blurry',
-    method: 'POST',
-    data
+    params: { ccid: ccid }
   })
 }

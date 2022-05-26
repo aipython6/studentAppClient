@@ -13,6 +13,7 @@
       </el-col>
       <el-col :span="5" v-else>
         <el-input
+          v-if="showInput"
           :size="size"
           v-model="searchVal"
           :placeholder="'按' + searchType + '搜索'"
@@ -95,6 +96,13 @@ export default {
       default: () => {
         return [];
       },
+    },
+    // 是否显示输入框
+    showInput: {
+      type: Boolean,
+      default: () => {
+        return true
+      }
     },
     // 是否显示searchType下拉列表
     showSearchType: {

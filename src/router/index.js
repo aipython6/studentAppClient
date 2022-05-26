@@ -90,7 +90,14 @@ export const constantRoutes = [
         path: 'bookDetail',
         name: 'BookDetail',
         component: () => import('@/views/project/bookDetail/index'),
-        meta: { title: '课本详情', icon: 'documentation'}
+        meta: { title: '课本章节', icon: 'documentation'}
+      },
+      {
+        path: 'chapterContent',
+        name: 'ChapterContent',
+        component: () => import('@/views/project/bookDetail/chapterContent/index'),
+        meta: { title: '章节内容', icon: 'el-icon-message' },
+        hidden: true
       }
     ]
   },
