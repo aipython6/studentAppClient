@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div style="font-size: 12px; color: red; margin-bottom: 5px;">
-    注意:课本添加按钮是添加1级章节;1级章节按钮是添加2级章节;2级章节按钮跳转到新页面来添加具体的章节内容
+    <div style="font-size: 12px; color: red; margin-bottom: 5px">
+      注意:课本添加按钮是添加1级章节;1级章节按钮是添加2级章节;2级章节按钮跳转到新页面来添加具体的章节内容
     </div>
     <el-input
       placeholder="输入课本名称过滤"
@@ -289,7 +289,7 @@ export default {
         });
         // 跳转到新页面,用于添加具体的二级章节内容
       } else if (type === 2) {
-        this.scan(bid)
+        this.scan(bid);
       }
     },
     append(data) {
@@ -442,7 +442,7 @@ export default {
       this.handleDelete(data.data.id);
     },
     handleDelete(bid) {
-      this.$confirm("是否删除?", "提示", {
+      this.$confirm("该操作将会删除其下所有章节,是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
@@ -459,9 +459,9 @@ export default {
         });
       });
     },
-    scan (bid) {
-      setBid(bid)
-      this.$router.push({ name: 'ChapterContent' })
+    scan(bid) {
+      setBid(bid);
+      this.$router.push({ name: "ChapterContent" });
     },
   },
 };

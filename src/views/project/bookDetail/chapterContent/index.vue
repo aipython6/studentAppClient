@@ -1,19 +1,21 @@
 <template>
   <div class="container">
-     <div class="baseinfo">
+    <div class="baseinfo">
       <span class="bname">{{ obj.bname }}</span>
       <span class="cname">{{ obj.cname }}</span>
-     </div>
-     <div>
-      <Header 
-        :roles=[user.role]
+      <span class="name">第{{ obj.name }}节</span>
+    </div>
+    <div>
+      <Header
+        :roles="[user.role]"
         :showInput="false"
         :showSearchType="false"
         :showSearchBtn="false"
         :showDownloadBtn="false"
-        @handleCreate="handleCreate" />
-     </div>
-     <div class="table-data">
+        @handleCreate="handleCreate"
+      />
+    </div>
+    <div class="table-data">
       <el-table
         :key="tableKey"
         v-loading="listLoading"
@@ -39,7 +41,7 @@
           :show-overflow-tooltip="true"
         >
           <template slot-scope="{ row }">
-            <span>{{ row.pname }}</span>
+            <span>第{{ row.pname }}节</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -129,8 +131,8 @@
         :limit.sync="listQuery.limit"
         @pagination="getAll"
       />
-     </div>
-     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+    </div>
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form
         ref="dataForm"
         :rules="rules"
@@ -145,17 +147,17 @@
         <el-form-item label="章节图片" prop="urls">
           <el-upload
             :headers="headers"
-            accept=".png,.jpg,.jpeg,.bmp,.wmf,.tif"
+            accept=".png,.jpg,.jpeg,.bmp,.wmf,.tif,.webp"
             class="upload-demo"
             :action="upload_url"
-            :on-preview="handlePreview"
             :on-remove="handleRemove"
             :file-list="fileList"
-            on-success="successUpload"
-            before-upload="beforeUpload"
-            list-type="picture">
+            :on-success="successUpload"
+            :on-change="handleChange"
+            list-type="picture"
+          >
             <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">文件不超过500kb</div>
+            <div slot="tip" class="el-upload__tip">文件不超过3M</div>
           </el-upload>
         </el-form-item>
         <el-form-item label="创建人" prop="create_by">
@@ -182,19 +184,19 @@
   </div>
 </template>
 <script>
-import { allBybid } from '@/api/bookDetail/chapterContent'
+import { allBybid } from "@/api/bookDetail/chapterContent";
 import Pagination from "@/components/Pagination";
-import Header from '@/components/Header'
-import { getBid, getUsername, getToken } from '@/utils/auth'
-import { mapGetters } from 'vuex'
+import Header from "@/components/Header";
+import { getBid, getUsername, getToken } from "@/utils/auth";
+import { mapGetters } from "vuex";
 import { chapterContentUpload } from "@/utils/url";
-import { all, edit, add, del } from '@/api/bookDetail/chapterContent'
+import { all, edit, add, del } from "@/api/bookDetail/chapterContent";
 export default {
-  name: 'chapterContent',
+  name: "chapterContent",
   components: { Header, Pagination },
   data() {
     return {
-      obj: { name: '', bname: '', cname: '' },
+      obj: { name: "", bname: "", cname: "" },
       tableKey: 0,
       listQuery: {
         page: 1,
@@ -213,11 +215,9 @@ export default {
         name: "",
         enabled: 0,
         urls: [],
-        bid: '',
+        bid: getBid(),
         create_by: getUsername(),
       },
-      // 父级类目列表
-      secondProjectList: [],
       list: [],
       listLoading: false,
       rules: {
@@ -241,38 +241,40 @@ export default {
       headers: { authorization: "", username: "" },
       upload_url: chapterContentUpload,
       fileList: [],
-      srcList: []
+      srcList: [],
     };
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(["user"]),
   },
   mounted() {
     this.headers.authorization = getToken();
     this.headers.username = getUsername();
-    const bid = getBid()
-    this.allBybid(bid)
+    const bid = getBid();
+    this.allBybid(bid);
+    this.getAll();
   },
   methods: {
     rowClassName({ row, rowIndex }) {
       row.xh = rowIndex + 1;
     },
     allBybid(bid) {
-      allBybid(bid).then(res => {
-        const { content } = res
-        this.obj.bname = content.bname
-        this.obj.cname = content.cname
-        this.obj.name = content.name
-      })
+      allBybid(bid).then((res) => {
+        const { content } = res;
+        this.obj.bname = content.bname;
+        this.obj.cname = content.cname;
+        this.obj.name = content.name;
+      });
     },
 
     getAll() {
-      all(this.listQuery).then((res) => {
+      const temp = Object.assign({}, this.listQuery, { bid: getBid() });
+      all(temp).then((res) => {
         this.listLoading = true;
         const { content, total } = res;
         this.list = content;
         this.total = total;
-        this.srcList = this.list.map((e) => e.coverImg);
+        this.srcList = this.list.map((e) => e.url);
         setTimeout(() => {
           this.listLoading = false;
         }, 1000);
@@ -284,7 +286,7 @@ export default {
         name: this.obj.name,
         enabled: 0,
         urls: [],
-        bid: "",
+        bid: getBid(),
         create_by: getUsername(),
       };
       this.fileList = [];
@@ -324,6 +326,7 @@ export default {
     },
 
     handleUpdate(row) {
+      this.fileList.push({ url: row.url });
       this.temp = Object.assign({}, row);
       this.dialogStatus = "update";
       this.dialogFormVisible = true;
@@ -358,13 +361,13 @@ export default {
     },
 
     handleDelete(row, index) {
-      const { bid } = row;
+      const { ccid } = row;
       this.$confirm("是否删除?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       }).then(() => {
-        del(bid).then((res) => {
+        del(ccid).then((res) => {
           const { msg } = res;
           this.getAll();
           this.$notify({
@@ -377,41 +380,58 @@ export default {
       });
     },
 
-    beforeUpload(file) {
-      console.log(file)
+    // 限制图片大小的函数,小于5M
+    handleChange(file) {
+      const isLt3M = file.size / 1024 / 1024 < 5;
+      if (!isLt3M) {
+        this.$refs.clearFiles();
+        this.$message({
+          message: "上传的图片不能大于5M",
+          type: "error",
+        });
+      }
+      return false;
     },
 
-    successUpload(response, file, fileList) {
-      console.log(file)
-      console.log(fileList)
-      console.log(response)
+    successUpload(file) {
+      if (file.code === 200) {
+        this.$message({
+          message: "上传成功",
+          type: "success",
+        });
+        // this.fileList.push(file.content.url);
+        this.temp.urls.push(file.content.url);
+      }
     },
 
     handleRemove(file, fileList) {
       console.log(file, fileList);
     },
-    handlePreview(file) {
-      console.log(file);
-    }
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>
-  .container {
-    margin: 15px;
-    .baseinfo {
-      margin-bottom: 8px;
-      display: flex;
-      .bname {
-        color: red;
-        font-size: 18px;
-        font-weight: bold;
-        margin-right: 14px;
-      }
-      .cname {
-        font-size: 16px;;
-        color: blue;
-      }
+.container {
+  margin: 15px;
+  .baseinfo {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    .bname {
+      color: #981395;
+      font-size: 19px;
+      font-weight: bold;
+      margin-right: 14px;
+    }
+    .cname {
+      font-size: 17px;
+      color: #009a72;
+      margin-right: 14px;
+    }
+    .name {
+      font-size: 15px;
+      color: #5d54af;
     }
   }
+}
 </style>
