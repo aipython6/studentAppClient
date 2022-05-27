@@ -7,7 +7,7 @@
       :showSearchBtn="false"
       :showDownloadBtn="false"
       @handleCreate="handleCreate"
-      />
+    />
     <div class="table-data">
       <el-table
         :key="tableKey"
@@ -135,8 +135,20 @@
         style="width: 400px; margin-left: 50px"
       >
         <el-form-item label="标题内容" prop="content">
-          <el-input v-model="temp.content" clearable placeholder="请输入标题内容(最多25字)" :maxlength="25" v-if="temp.type === 0" />
-          <el-input v-model="temp.content" clearable placeholder="请输入课程目录(最多4字)" :maxlength="4" v-else />
+          <el-input
+            v-model="temp.content"
+            clearable
+            placeholder="请输入标题内容(最多25字)"
+            :maxlength="25"
+            v-if="temp.type === 0"
+          />
+          <el-input
+            v-model="temp.content"
+            clearable
+            placeholder="请输入课程目录(最多4字)"
+            :maxlength="4"
+            v-else
+          />
         </el-form-item>
         <el-form-item label="标题内容" prop="type">
           <el-radio-group v-model="temp.type">
@@ -183,15 +195,15 @@
   </div>
 </template>
 <script>
-import Header from '@/components/Header'
-import Pagination from '@/components/Pagination'
-import { mapGetters } from 'vuex'
-import { wxImagesUpload } from '@/utils/url'
-import { getUsername, getToken } from '@/utils/auth'
-import { all, add, edit, del } from '@/api/settings/wechat/image'
+import Header from "@/components/Header";
+import Pagination from "@/components/Pagination";
+import { mapGetters } from "vuex";
+import { wxImagesUpload } from "@/utils/url";
+import { getUsername, getToken } from "@/utils/auth";
+import { all, add, edit, del } from "@/api/settings/wechat/image";
 export default {
   components: { Header, Pagination },
-  name: 'weImage',
+  name: "weImage",
   data() {
     return {
       tableKey: 0,
@@ -210,9 +222,9 @@ export default {
       timeout: null,
       temp: {
         enabled: 0,
-        url: '',
+        url: "",
         type: 0,
-        content: '',
+        content: "",
         create_by: getUsername(),
       },
       list: [],
@@ -227,9 +239,7 @@ export default {
         enabled: [
           { required: true, message: "请选择是否可用", trigger: "blur" },
         ],
-        type: [
-          { required: true, message: "请选择图片类型", trigger: "blur" },
-        ],
+        type: [{ required: true, message: "请选择图片类型", trigger: "blur" }],
         url: [
           {
             required: true,
@@ -239,18 +249,18 @@ export default {
         ],
       },
       headers: { authorization: "", username: "" },
-      imageUrl: '',
+      imageUrl: "",
       upload_url: wxImagesUpload,
       srcList: [],
     };
   },
   computed: {
-    ...mapGetters(['user'])
+    ...mapGetters(["user"]),
   },
   mounted() {
-    this.getAll()
-    this.headers.authorization = getToken()
-    this.headers.username = getUsername()
+    this.getAll();
+    this.headers.authorization = getToken();
+    this.headers.username = getUsername();
   },
   methods: {
     rowClassName({ row, rowIndex }) {
@@ -272,13 +282,13 @@ export default {
 
     resetTemp() {
       this.temp = {
-        content: '',
+        content: "",
         enabled: 0,
-        url: '',
+        url: "",
         type: 0,
         create_by: getUsername(),
       };
-      this.imageUrl = ''
+      this.imageUrl = "";
     },
 
     handleCreate(val) {
@@ -315,7 +325,7 @@ export default {
     },
 
     handleUpdate(row) {
-      this.imageUrl = row.url
+      this.imageUrl = row.url;
       this.temp = Object.assign({}, row);
       this.dialogStatus = "update";
       this.dialogFormVisible = true;
@@ -350,13 +360,13 @@ export default {
     },
 
     handleDelete(row, index) {
-      const { wid } = row;
+      const { wid, url } = row;
       this.$confirm("是否删除?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       }).then(() => {
-        del(wid).then((res) => {
+        del(wid, url).then((res) => {
           const { msg } = res;
           this.getAll();
           this.$notify({
@@ -394,7 +404,7 @@ export default {
     handleRemove(file, fileList) {
       console.log(file, fileList);
     },
-  }
+  },
 };
 </script>
 <style scoped>

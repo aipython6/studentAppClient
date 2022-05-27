@@ -361,13 +361,14 @@ export default {
     },
 
     handleDelete(row, index) {
-      const { ccid } = row;
+      // 也将url传递给后台,后台根据图片文件名删除目录中的图片文件
+      const { ccid, url } = row;
       this.$confirm("是否删除?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       }).then(() => {
-        del(ccid).then((res) => {
+        del(ccid, url).then((res) => {
           const { msg } = res;
           this.getAll();
           this.$notify({

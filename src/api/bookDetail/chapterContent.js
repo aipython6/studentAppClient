@@ -32,10 +32,10 @@ export function edit(data) {
   })
 }
 
-export function del(ccid) {
+export function del(ccid, url) {
   return request({
     url: '/chapterContent/del',
     method: 'DELETE',
-    params: { ccid: ccid }
+    params: { ccid: ccid, url: url }
   })
 }

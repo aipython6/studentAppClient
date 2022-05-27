@@ -494,13 +494,13 @@ export default {
     },
 
     handleDelete(row, index) {
-      const { bid } = row;
+      const { bid, url } = row;
       this.$confirm("是否删除?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       }).then(() => {
-        del(bid).then((res) => {
+        del(bid, url).then((res) => {
           const { msg } = res;
           this.getAll();
           this.$notify({

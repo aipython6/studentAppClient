@@ -1,5 +1,12 @@
 import request from '@/utils/request'
 
+export function getProvinces() {
+  return request({
+    url: '/settings/wechat/link/getProvinces',
+    method: 'GET',
+  })
+}
+
 export function all(params) {
   return request({
     url: '/settings/wechat/link/all',
@@ -24,10 +31,10 @@ export function edit(data) {
   })
 }
 
-export function all(wid) {
+export function del(lid, url) {
   return request({
     url: '/settings/wechat/link/del',
     method: 'DELETE',
-    params: { wid: wid }
+    params: { lid: lid, url: url }
   })
 }

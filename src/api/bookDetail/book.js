@@ -31,11 +31,11 @@ export function edit(data) {
   })
 }
 
-export function del(bid) {
+export function del(bid, url) {
   return request({
     url: '/book/del',
     method: 'DELETE',
-    params: { bid: bid }
+    params: { bid: bid, url: url }
   })
 }
 

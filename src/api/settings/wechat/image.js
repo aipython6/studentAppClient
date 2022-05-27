@@ -24,10 +24,10 @@ export function edit(data) {
   })
 }
 
-export function del(wid) {
+export function del(wid, url) {
   return request({
     url: '/settings/wechat/image/del',
     method: 'DELETE',
-    params: { wid: wid }
+    params: { wid: wid, url: url }
   })
 }

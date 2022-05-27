@@ -24,10 +24,10 @@ export function edit(data) {
   })
 }
 
-export function all(wid) {
+export function del(nid) {
   return request({
     url: '/settings/wechat/notice/del',
     method: 'DELETE',
-    params: { wid: wid }
+    params: { nid: nid }
   })
 }
