@@ -1,6 +1,6 @@
 <template>
   <div class="image">
-    <Header />
+    <Header :typeItems="typeItems" />
     <div class="table-data">
       <el-table
         :key="tableKey"
@@ -20,81 +20,102 @@
           min-width="5px"
         />
         <el-table-column
-          label="内容"
-          prop="content"
+          label="姓名"
+          prop="username"
           align="center"
           min-width="11px"
           :show-overflow-tooltip="true"
         >
           <template slot-scope="{ row }">
-            <span>{{ row.content }}</span>
+            <span>{{ row.username }}</span>
           </template>
         </el-table-column>
         <el-table-column
-          label="类型"
-          prop="typeName"
+          label="性别"
+          prop="gender"
           align="center"
           min-width="11px"
           :show-overflow-tooltip="true"
         >
           <template slot-scope="{ row }">
-            <span>{{ row.typeName }}</span>
+            <span>{{ row.gender }}</span>
           </template>
         </el-table-column>
         <el-table-column
-          label="发布时间"
+          label="年龄"
+          prop="age"
+          align="center"
+          min-width="11px"
+          :show-overflow-tooltip="true"
+        >
+          <template slot-scope="{ row }">
+            <span>{{ row.age }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="昵称"
+          prop="nickName"
+          align="center"
+          min-width="11px"
+          :show-overflow-tooltip="true"
+        >
+          <template slot-scope="{ row }">
+            <span>{{ row.nickName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="邮箱"
+          prop="email"
+          align="center"
+          min-width="11px"
+          :show-overflow-tooltip="true"
+        >
+          <template slot-scope="{ row }">
+            <span>{{ row.email }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="生日"
+          prop="birthday"
+          align="center"
+          min-width="11px"
+          :show-overflow-tooltip="true"
+        >
+          <template slot-scope="{ row }">
+            <span>{{ row.birthday }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          label="创建时间"
           prop="create_time"
           align="center"
-          min-width="17px"
+          min-width="11px"
           :show-overflow-tooltip="true"
         >
           <template slot-scope="{ row }">
-            <i class="el-icon-time" style="margin-right: 3px" />
             <span>{{ row.create_time }}</span>
           </template>
         </el-table-column>
         <el-table-column
-          label="是否可用"
-          prop="enabled"
+          label="学校"
+          prop="school"
           align="center"
-          min-width="12px"
+          min-width="11px"
+          :show-overflow-tooltip="true"
         >
           <template slot-scope="{ row }">
-            <el-switch
-              v-model="row.enabled"
-              :disabled="user.role !== 'admin'"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-              inactive-text="否"
-              active-text="是"
-              @change="handleSetStatus(row)"
-            />
+            <span>{{ row.school }}</span>
           </template>
         </el-table-column>
         <el-table-column
-          label="操作"
+          label="专业"
+          prop="professional"
           align="center"
-          min-width="17px"
-          class-name="small-padding fixed-width"
+          min-width="11px"
+          :show-overflow-tooltip="true"
         >
-          <template slot-scope="{ row, $index }">
-            <el-button
-              type="primary"
-              size="mini"
-              icon="el-icon-edit"
-              :disabled="user.role !== 'admin'"
-              @click="handleUpdate(row)"
-              >编辑</el-button
-            >
-            <el-button
-              v-if="row.status != 'deleted'"
-              size="mini"
-              type="danger"
-              icon="el-icon-delete"
-              :disabled="user.role !== 'admin'"
-              @click="handleDelete(row, $index)"
-              >删除</el-button
-            >
+          <template slot-scope="{ row }">
+            <span>{{ row.professional }}</span>
           </template>
         </el-table-column>
       </el-table>
@@ -111,8 +132,7 @@
 <script>
 import Header from "@/components/Header";
 import Pagination from "@/components/Pagination";
-import { mapGetters } from "vuex";
-import { all } from "@/api/settings/wechat/notice";
+import { all } from "@/api/settings/wechat/student";
 export default {
   components: { Header, Pagination },
   name: "weImage",
@@ -126,10 +146,8 @@ export default {
       total: 0,
       list: [],
       listLoading: false,
+      typeItems: ["姓名", "性别", "学校", "专业"],
     };
-  },
-  computed: {
-    ...mapGetters(["user"]),
   },
   mounted() {
     this.getAll();
@@ -145,7 +163,6 @@ export default {
         const { content, total } = res;
         this.list = content;
         this.total = total;
-        this.srcList = this.list.map((e) => e.coverImg);
         setTimeout(() => {
           this.listLoading = false;
         }, 1000);

@@ -7,27 +7,3 @@ export function all(params) {
     params: params
   })
 }
-
-export function add(data) {
-  return request({
-    url: '/settings/wechat/student/add',
-    method: 'POST',
-    data
-  })
-}
-
-export function edit(data) {
-  return request({
-    url: '/settings/wechat/student/edit',
-    method: 'PUT',
-    data
-  })
-}
-
-export function all(wid) {
-  return request({
-    url: '/settings/wechat/student/del',
-    method: 'DELETE',
-    params: { wid: wid }
-  })
-}

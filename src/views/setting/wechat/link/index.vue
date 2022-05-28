@@ -72,6 +72,17 @@
           </template>
         </el-table-column>
         <el-table-column
+          label="热度"
+          prop="clickNum"
+          align="center"
+          min-width="17px"
+          :show-overflow-tooltip="true"
+        >
+          <template slot-scope="{ row }">
+            <span>{{ row.clickNum }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
           label="图片"
           prop="coverImg"
           align="center"
