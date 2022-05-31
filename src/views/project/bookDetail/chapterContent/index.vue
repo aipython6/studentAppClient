@@ -45,6 +45,17 @@
           </template>
         </el-table-column>
         <el-table-column
+          label="类型"
+          prop="type"
+          align="center"
+          min-width="12px"
+          :show-overflow-tooltip="true"
+        >
+          <template slot-scope="{ row }">
+            <span>{{ row.type }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
           label="发布时间"
           prop="create_time"
           align="center"
@@ -160,6 +171,12 @@
             <div slot="tip" class="el-upload__tip">文件不超过3M</div>
           </el-upload>
         </el-form-item>
+        <el-form-item label="类型" prop="type">
+          <el-radio-group v-model="temp.type">
+            <el-radio :label="0">章节内容</el-radio>
+            <el-radio :label="1">练习题</el-radio>
+          </el-radio-group>
+        </el-form-item>
         <el-form-item label="创建人" prop="create_by">
           <el-input v-model="temp.create_by" disabled />
         </el-form-item>
@@ -214,6 +231,7 @@ export default {
       temp: {
         name: "",
         enabled: 0,
+        type: 0,
         urls: [],
         bid: getBid(),
         create_by: getUsername(),
@@ -283,6 +301,7 @@ export default {
 
     resetTemp() {
       this.temp = {
+        type: 0,
         name: this.obj.name,
         enabled: 0,
         urls: [],
