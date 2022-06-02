@@ -13,18 +13,16 @@ export default {
   data() {
     return {
       study_time: '',
-      hours: '',
-      minutes: '',
-      seconds: ''
+      start_time: '',
+      end_time: ''
     };
   },
   mounted() {
-    // enter_time = new Date()
+    this.start_time = new Date()
     this.start()
   },
   destroyed() {
-    // out_time = new Date()
-    // stay_time = out_time.getTime() - enter_time.getTime()
+    this.end_time = new Date()
   },
   methods: {
     start() {

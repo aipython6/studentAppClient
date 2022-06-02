@@ -2,6 +2,7 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken, getUsername } from '@/utils/auth'
+import Cookies from 'js-cookie'
 
 console.log(process.env.VUE_APP_BASE_API)
 // create an axios instance
@@ -73,12 +74,20 @@ service.interceptors.response.use(
     }
   },
   error => {
-    console.log('err' + error) // for debug
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    })
+    let code = 0
+    code = error.response.data.status
+    if (code === 401) {
+      store.dispatch('user/logout').then(() => {
+        Cookies.set('point', 401)
+        location.reload()
+      })
+    }
+    // console.log('err' + error) // for debug
+    // Message({
+    //   message: error.message,
+    //   type: 'error',
+    //   duration: 5 * 1000
+    // })
     return Promise.reject(error)
   }
 )

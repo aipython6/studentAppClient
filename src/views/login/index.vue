@@ -61,7 +61,7 @@
 
 <script>
 import { validUsername } from "@/utils/validate";
-
+import Cookies from 'js-cookie'
 export default {
   name: "Login",
   data() {
@@ -74,7 +74,7 @@ export default {
     };
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error("The password can not be less than 6 digits"));
+        callback(new Error("密码长度不小于6"));
       } else {
         callback();
       }
@@ -104,6 +104,9 @@ export default {
       },
       immediate: true,
     },
+  },
+  created() {
+    this.point()
   },
   methods: {
     showPwd() {
@@ -135,6 +138,18 @@ export default {
         }
       });
     },
+
+    point() {
+      const point = Cookies.get('point') !== undefined
+      if (point) {
+        this.$notify({
+          title: '提示',
+          message: '当前登录状态已过期,请重新登录',
+          type: 'warning',
+          duration: 5000
+        })
+      }
+    }
   },
 };
 </script>
