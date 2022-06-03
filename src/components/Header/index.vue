@@ -101,44 +101,44 @@ export default {
     showInput: {
       type: Boolean,
       default: () => {
-        return true
-      }
+        return true;
+      },
     },
     // 是否显示searchType下拉列表
     showSearchType: {
       type: Boolean,
       default: () => {
-        return true
-      }
+        return true;
+      },
     },
     // 是否显示搜索按钮
     showSearchBtn: {
       type: Boolean,
       default: () => {
-        return true
-      }
+        return true;
+      },
     },
     // 是否显示添加按钮
     showAddBtn: {
       type: Boolean,
       default: () => {
-        return true
-      }
+        return true;
+      },
     },
     // 是否显示导出按钮
     showDownloadBtn: {
       type: Boolean,
       default: () => {
-        return true
-      }
+        return false;
+      },
     },
     // 输入框和按钮的大小
     size: {
       type: String,
       default: () => {
-        return 'medium'
-      }
-    }
+        return "medium";
+      },
+    },
   },
   data() {
     return {

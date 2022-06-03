@@ -43,7 +43,7 @@
           min-width="5px"
         >
           <template slot-scope="{ row }">
-            <span>{{ row.gender }}</span>
+            <span>{{ row.gender === 0 ? "男" : "女" }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -142,7 +142,10 @@
         style="width: 400px; margin-left: 50px"
       >
         <el-form-item label="用户名称" prop="username">
-          <el-input v-model="temp.username" placeholder="请输入用户名" />
+          <el-input
+            v-model="temp.username"
+            placeholder="请输入用户名(只能是英文或数字)"
+          />
         </el-form-item>
         <el-form-item label="科室名称" prop="deptname">
           <el-autocomplete
@@ -161,10 +164,15 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="角色" prop="role">
-          <el-radio-group v-model="temp.role">
-            <el-radio :label="0">admin</el-radio>
-            <el-radio :label="1">normal</el-radio>
-          </el-radio-group>
+          <el-select v-model="temp.role" placeholder="请选择角色">
+            <el-option
+              v-for="item in roleList"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="是否可用" prop="enabled">
           <el-switch
@@ -191,7 +199,8 @@ import Header from "@/components/Header";
 import Pagination from "@/components/Pagination";
 import { mapGetters } from "vuex";
 import { all, edit, add, del, blurry } from "@/api/settings/user/user";
-import { getDeptList } from '@/api/settings/dept/dept'
+import { getRoles } from "@/api/user";
+import { getDeptList } from "@/api/settings/dept/dept";
 export default {
   components: { Header, Pagination },
   data() {
@@ -207,49 +216,63 @@ export default {
         update: "更新用户信息",
         create: "新增用户信息",
       },
-      typeItems: ['用户名'],
+      typeItems: ["用户名"],
       dialogStatus: "",
       dialogFormVisible: false,
       timeout: null,
       temp: {
         username: "",
         enabled: 0,
-        deptid: '',
-        deptname: '',
+        deptid: "",
+        deptname: "",
         role: "",
-        gender: '',
+        gender: "",
       },
+      roleList: [],
       deptList: [],
       list: [],
       listLoading: false,
       rules: {
-        username: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-        enabled: [{ required: true, message: "请选择是否可用", trigger: "blur" }],
+        username: [
+          { required: true, message: "请输入用户名", trigger: "blur" },
+        ],
+        enabled: [
+          { required: true, message: "请选择是否可用", trigger: "blur" },
+        ],
         gender: [{ required: true, message: "请选择性别", trigger: "blur" }],
         role: [{ required: true, message: "请选择角色", trigger: "blur" }],
         deptname: [{ required: true, message: "请选择科室", trigger: "blur" }],
-      }
+      },
     };
   },
   computed: {
     ...mapGetters(["user"]),
   },
   mounted() {
-    this.getDeptList()
-    this.getAll()
+    this.getRoles();
+    this.getDeptList();
+    this.getAll();
   },
 
   methods: {
     rowClassName({ row, rowIndex }) {
       row.xh = rowIndex + 1;
     },
+    getRoles() {
+      getRoles().then((res) => {
+        const { content } = res;
+        this.roleList = content.map((e) => {
+          return { value: e.rid, label: e.name };
+        });
+      });
+    },
     getDeptList() {
-      getDeptList().then(res => {
-        const { content } = res
-        this.deptList = content.map(e => {
-          return { deptid: e.deptid, value: e.deptname }
-        })
-      })
+      getDeptList().then((res) => {
+        const { content } = res;
+        this.deptList = content.map((e) => {
+          return { deptid: e.deptid, value: e.deptname };
+        });
+      });
     },
     getAll() {
       // const temp = Object.assign({}, this.listQuery);
@@ -281,9 +304,9 @@ export default {
       this.temp = {
         username: "",
         enabled: 0,
-        deptid: '',
-        deptname: '',
-        role: 0,
+        deptid: "",
+        deptname: "",
+        role: "",
         gender: 0,
       };
     },
@@ -305,15 +328,22 @@ export default {
             type: "warning",
           }).then(() => {
             add(this.temp).then((res) => {
-              const { msg } = res;
-              this.dialogFormVisible = false;
-              this.getAll();
-              this.$notify({
-                title: "Success",
-                message: msg,
-                type: "success",
-                duration: 2000,
-              });
+              const { msg, code } = res;
+              if (code === 200) {
+                this.dialogFormVisible = false;
+                this.getAll();
+                this.$notify({
+                  title: "Success",
+                  message: msg,
+                  type: "success",
+                  duration: 4000,
+                });
+              } else {
+                this.$message({
+                  message: msg,
+                  type: "error",
+                });
+              }
             });
           });
         }
@@ -394,12 +424,13 @@ export default {
       this.temp.deptid = item.deptid;
     },
 
-    handleDownload() {}
-  }
+    handleDownload() {},
+  },
 };
 </script>
 <style lang="scss" scoped>
 .container {
+  margin-top: 45px;
   .table-data {
     margin: 15px;
   }

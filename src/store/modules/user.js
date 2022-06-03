@@ -7,6 +7,7 @@ const getDefaultState = () => {
     token: getToken(),
     username: getUsername(),
     user: {},
+    hasInfo: ''
   }
 }
 
@@ -24,6 +25,9 @@ const mutations = {
   },
   SET_USER: (state, user) => {
     state.user = user
+  },
+  SET_INFO: (state, info) => {
+    state.hasInfo = info
   }
 }
 
@@ -35,10 +39,10 @@ const actions = {
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
         const { token, username } = response
-        commit('SET_TOKEN', token)
-        commit('SET_USERNAME', username)
-        setToken(token)
         setUsername(username)
+        commit('SET_USERNAME', username)
+        commit('SET_TOKEN', token)
+        setToken(token)
         resolve()
       }).catch(error => {
         reject(error)
@@ -51,10 +55,12 @@ const actions = {
     return new Promise((resolve, reject) => {
       getInfo(state.username).then(response => {
         const { content } = response
+        // console.log(content)
         if (!content) {
           return reject('验证失败,请重新登录')
         }
         commit('SET_USER', content)
+        commit('SET_INFO')
         resolve(content)
       }).catch(error => {
         reject(error)

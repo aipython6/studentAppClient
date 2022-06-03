@@ -41,3 +41,12 @@ export function blurry(data) {
     data
   })
 }
+
+// 用户更新密码
+export function updatePass(data) {
+  return request({
+    url: '/user/updatePass',
+    method: 'POST',
+    data
+  })
+}

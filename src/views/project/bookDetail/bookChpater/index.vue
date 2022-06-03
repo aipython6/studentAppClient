@@ -29,7 +29,12 @@
             content="添加章节"
             placement="bottom"
           >
-            <el-button type="text" size="mini" @click="() => append(data)">
+            <el-button
+              type="text"
+              size="mini"
+              @click="() => append(data)"
+              :disabled="user.role !== 'admin'"
+            >
               添加
             </el-button>
           </el-tooltip>
@@ -39,7 +44,12 @@
             content="编辑章节"
             placement="bottom"
           >
-            <el-button type="text" size="mini" @click="() => update(data)">
+            <el-button
+              type="text"
+              size="mini"
+              @click="() => update(data)"
+              :disabled="user.role !== 'admin'"
+            >
               编辑
             </el-button>
           </el-tooltip>
@@ -53,6 +63,7 @@
               type="text"
               size="mini"
               @click="() => remove(node, data)"
+              :disabled="user.role !== 'admin'"
             >
               删除
             </el-button>
@@ -493,9 +504,10 @@ export default {
 </style>
 <style lang="scss" scoped>
 .container {
+  margin-top: 30px;
   .el-tree {
     overflow: auto;
-    height: 530px;
+    height: 450px;
   }
 }
 </style>

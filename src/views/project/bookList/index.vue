@@ -583,6 +583,7 @@ export default {
 </style>
 <style lang="scss" scoped>
 .container {
+  margin-top: 45px;
   .table-data {
     margin: 15px;
   }

@@ -153,37 +153,39 @@ export default {
         update: "更新科室信息",
         create: "新增科室信息",
       },
-      typeItems: ['科室名称'],
+      typeItems: ["科室名称"],
       dialogStatus: "",
       dialogFormVisible: false,
       timeout: null,
       temp: {
         enabled: 0,
-        deptname: '',
+        deptname: "",
       },
       list: [],
       listLoading: false,
       rules: {
-        enabled: [{ required: true, message: "请选择是否可用", trigger: "blur" }],
+        enabled: [
+          { required: true, message: "请选择是否可用", trigger: "blur" },
+        ],
         deptname: [{ required: true, message: "请选择科室", trigger: "blur" }],
-      }
+      },
     };
   },
   computed: {
     ...mapGetters(["user"]),
   },
   mounted() {
-    this.getAll()
+    this.getAll();
   },
   methods: {
     rowClassName({ row, rowIndex }) {
       row.xh = rowIndex + 1;
     },
     getAll() {
-      getDeptList().then(res => {
-        const { content } = res
-        this.list = content
-      })
+      getDeptList().then((res) => {
+        const { content } = res;
+        this.list = content;
+      });
     },
 
     handleFilter({ searchType, searchVal }) {
@@ -201,7 +203,7 @@ export default {
     resetTemp() {
       this.temp = {
         enabled: 0,
-        deptname: '',
+        deptname: "",
       };
     },
     handleCreate(val) {
@@ -291,12 +293,13 @@ export default {
         });
       });
     },
-    handleDownload() {}
-  }
+    handleDownload() {},
+  },
 };
 </script>
 <style lang="scss" scoped>
 .container {
+  margin-top: 45px;
   .table-data {
     margin: 15px;
   }

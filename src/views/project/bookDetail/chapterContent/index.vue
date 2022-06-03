@@ -52,7 +52,7 @@
           :show-overflow-tooltip="true"
         >
           <template slot-scope="{ row }">
-            <span>{{ row.type }}</span>
+            <span>{{ row.type === 0 ? "章节内容" : "练习题" }}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -432,7 +432,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .container {
-  margin: 15px;
+  margin: 45px 15px 15px 15px;
   .baseinfo {
     margin-bottom: 8px;
     display: flex;

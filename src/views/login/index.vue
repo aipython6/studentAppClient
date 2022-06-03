@@ -19,7 +19,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="Username"
+          placeholder="用户名"
           name="username"
           type="text"
           tabindex="1"
@@ -36,7 +36,7 @@
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          placeholder="Password"
+          placeholder="密码"
           name="password"
           tabindex="2"
           auto-complete="on"
@@ -60,18 +60,18 @@
 </template>
 
 <script>
-import { validUsername } from "@/utils/validate";
-import Cookies from 'js-cookie'
+// import { validUsername } from "@/utils/validate";
+import Cookies from "js-cookie";
 export default {
   name: "Login",
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error("Please enter the correct user name"));
-      } else {
-        callback();
-      }
-    };
+    // const validateUsername = (rule, value, callback) => {
+    //   if (!validUsername(value)) {
+    //     callback(new Error("Please enter the correct user name"));
+    //   } else {
+    //     callback();
+    //   }
+    // };
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
         callback(new Error("密码长度不小于6"));
@@ -81,12 +81,12 @@ export default {
     };
     return {
       loginForm: {
-        username: "admin",
-        password: "123456",
+        username: "",
+        password: "",
       },
       loginRules: {
         username: [
-          { required: true, trigger: "blur", validator: validateUsername },
+          { required: true, trigger: "blur", message: "请输入用户名" },
         ],
         password: [
           { required: true, trigger: "blur", validator: validatePassword },
@@ -106,7 +106,7 @@ export default {
     },
   },
   created() {
-    this.point()
+    this.point();
   },
   methods: {
     showPwd() {
@@ -140,16 +140,16 @@ export default {
     },
 
     point() {
-      const point = Cookies.get('point') !== undefined
+      const point = Cookies.get("point") !== undefined;
       if (point) {
         this.$notify({
-          title: '提示',
-          message: '当前登录状态已过期,请重新登录',
-          type: 'warning',
-          duration: 5000
-        })
+          title: "提示",
+          message: "当前登录状态已过期,请重新登录",
+          type: "warning",
+          duration: 5000,
+        });
       }
-    }
+    },
   },
 };
 </script>

@@ -18,7 +18,7 @@
           <router-link to="/">
             <el-dropdown-item> 首页 </el-dropdown-item>
           </router-link>
-          <router-link to="/profile">
+          <router-link to="/setting/center">
             <el-dropdown-item> 个人中心 </el-dropdown-item>
           </router-link>
           <el-dropdown-item @click.native="logout">
@@ -34,7 +34,6 @@
 import { mapGetters } from "vuex";
 import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
-
 export default {
   components: {
     Breadcrumb,

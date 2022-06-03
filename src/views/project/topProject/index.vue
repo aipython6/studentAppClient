@@ -150,7 +150,7 @@
 <script>
 import Header from "@/components/Header";
 import Pagination from "@/components/Pagination";
-import { getYMD } from '@/utils/handleDate'
+import { getYMD } from "@/utils/handleDate";
 import { mapGetters } from "vuex";
 import { getUsername } from "../../../utils/auth";
 import { all, edit, add, del, blurry } from "@/api/topProject/topProject";
@@ -201,20 +201,24 @@ export default {
       row.xh = rowIndex + 1;
     },
     handleFilter({ searchType, searchVal }) {
-      if (searchType === '课程大类') {
-        const temp = Object.assign({}, { name: searchVal }, this.listQuery)
-        blurry(temp).then(res => {
-          this.list = res.content
-          this.total = res.total
-        })
-      } else if(searchType === '发布时间') {
-        const start = getYMD(searchVal[0])
-        const end = getYMD(searchVal[1])
-        const temp = Object.assign({}, { create_time: [start, end] }, this.listQuery)
-        blurry(temp).then(res => {
-          this.list = res.content
-          this.total = res.total
-        })
+      if (searchType === "课程大类") {
+        const temp = Object.assign({}, { name: searchVal }, this.listQuery);
+        blurry(temp).then((res) => {
+          this.list = res.content;
+          this.total = res.total;
+        });
+      } else if (searchType === "发布时间") {
+        const start = getYMD(searchVal[0]);
+        const end = getYMD(searchVal[1]);
+        const temp = Object.assign(
+          {},
+          { create_time: [start, end] },
+          this.listQuery
+        );
+        blurry(temp).then((res) => {
+          this.list = res.content;
+          this.total = res.total;
+        });
       }
     },
     getAll() {
@@ -349,6 +353,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .container {
+  margin-top: 45px;
   .table-data {
     margin: 15px;
   }

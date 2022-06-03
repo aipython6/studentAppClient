@@ -9,3 +9,6 @@ export const wxImagesUpload = base_url + '/settings/wechat/image/upload'
 
 // 小程序link背景图片上传
 export const linkCoverImgUpload = base_url + '/settings/wechat/link/upload'
+
+// 用户头像上传
+export const avatarUpload = base_url + '/user/upload'

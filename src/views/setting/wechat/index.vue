@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <el-tabs type="border-card"  v-model="activeName">
-      <el-tab-pane label="图片管理" name='first'>
+    <el-tabs type="border-card" v-model="activeName">
+      <el-tab-pane label="图片管理" name="first">
         <weImage />
       </el-tab-pane>
       <el-tab-pane label="链接管理" name="second">
@@ -20,22 +20,22 @@
   </div>
 </template>
 <script>
-import weImage from './image'
-import Link from './link'
-import Notice from './notice'
-import OCR from './OCR'
-import Student from './student'
+import weImage from "./image";
+import Link from "./link";
+import Notice from "./notice";
+import OCR from "./OCR";
+import Student from "./student";
 export default {
   components: { weImage, Link, Notice, OCR, Student },
   data() {
     return {
-      activeName: 'first'
+      activeName: "first",
     };
   },
 };
 </script>
 <style lang="scss" scoped>
-  .container {
-    margin: 10px;
-  }
+.container {
+  margin: 45px 10px 10px 10px;
+}
 </style>
