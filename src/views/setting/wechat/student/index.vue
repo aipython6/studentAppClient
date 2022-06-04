@@ -1,6 +1,6 @@
 <template>
   <div class="image">
-    <Header :typeItems="typeItems" />
+    <Header :typeItems="typeItems" @handleFilter="handleFilter" />
     <div class="table-data">
       <el-table
         :key="tableKey"
@@ -132,7 +132,8 @@
 <script>
 import Header from "@/components/Header";
 import Pagination from "@/components/Pagination";
-import { all } from "@/api/settings/wechat/student";
+import { getYMD } from "@/utils/handleDate";
+import { all, blurry } from "@/api/settings/wechat/student";
 export default {
   components: { Header, Pagination },
   name: "weImage",
@@ -146,7 +147,7 @@ export default {
       total: 0,
       list: [],
       listLoading: false,
-      typeItems: ["姓名", "性别", "学校", "专业"],
+      typeItems: ["姓名", "性别", "学校", "专业", "创建时间"],
     };
   },
   mounted() {
@@ -167,6 +168,39 @@ export default {
           this.listLoading = false;
         }, 1000);
       });
+    },
+
+    handleFilter({ searchType, searchVal }) {
+      if (
+        searchType === "姓名" ||
+        searchType === "性别" ||
+        searchType === "学校" ||
+        searchType === "专业"
+      ) {
+        const temp = Object.assign(
+          {},
+          { name: searchVal, type: searchType },
+          this.listQuery
+        );
+        blurry(temp).then((res) => {
+          this.list = res.content;
+          this.total = res.total;
+        });
+      } else if (searchType === "创建时间" || searchType === "发布时间") {
+        const start = getYMD(searchVal[0]);
+        const end = getYMD(searchVal[1]);
+        const temp = Object.assign(
+          {},
+          { create_time: [start, end] },
+          this.listQuery
+        );
+        blurry(temp).then((res) => {
+          this.list = res.content;
+          this.total = res.total;
+        });
+      } else {
+        this.getAll();
+      }
     },
   },
 };

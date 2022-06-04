@@ -189,7 +189,7 @@ import Pagination from "@/components/Pagination";
 import { getYMD } from "@/utils/handleDate";
 import { mapGetters } from "vuex";
 import { getUsername } from "../../../utils/auth";
-import { all, edit, add, del } from "@/api/bookType/bookType";
+import { all, edit, add, del, blurry } from "@/api/bookType/bookType";
 import { allSecondProject } from "@/api/secondProject/secondProject";
 export default {
   components: { Header, Pagination, bgColor },
@@ -209,7 +209,7 @@ export default {
       dialogStatus: "",
       dialogFormVisible: false,
       timeout: null,
-      typeItems: ["课本类型", "发布时间"],
+      typeItems: ["课本类型", "发布时间", "上级类目"],
       temp: {
         name: "",
         enabled: 0,
@@ -275,8 +275,12 @@ export default {
       });
     },
     handleFilter({ searchType, searchVal }) {
-      if (searchType === "课本类型") {
-        const temp = Object.assign({}, { name: searchVal }, this.listQuery);
+      if (searchType === "课本类型" || searchType === "上级类目") {
+        const temp = Object.assign(
+          {},
+          { name: searchVal, type: searchType },
+          this.listQuery
+        );
         blurry(temp).then((res) => {
           this.list = res.content;
           this.total = res.total;

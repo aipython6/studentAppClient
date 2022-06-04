@@ -7,3 +7,11 @@ export function all(params) {
     params: params
   })
 }
+
+export function blurry(data) {
+  return request({
+    url: '/settings/wechat/student/blurry',
+    method: 'POST',
+    data
+  })
+}

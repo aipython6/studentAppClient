@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <el-row :gutter="10">
-      <el-col :span="9" v-if="searchType === '发布时间'">
+      <el-col
+        :span="9"
+        v-if="searchType === '发布时间' || searchType === '创建时间'"
+      >
         <el-date-picker
           :size="size === 'medium' ? '' : 'small'"
           v-model="searchVal"
@@ -30,6 +33,7 @@
           placeholder="请选择搜索类型"
           style="width: 150px"
           class="filter-item"
+          @change="handleChange"
         >
           <el-option
             v-for="item in typeItems"
@@ -148,6 +152,10 @@ export default {
     };
   },
   methods: {
+    handleChange() {
+      // this.searchType = "";
+      this.searchVal = "";
+    },
     handleFilter(searchType, searchVal) {
       this.$emit("handleFilter", {
         searchType: searchType,

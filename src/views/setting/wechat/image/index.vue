@@ -38,6 +38,17 @@
           </template>
         </el-table-column>
         <el-table-column
+          label="类别"
+          prop="type"
+          align="center"
+          min-width="7px"
+          :show-overflow-tooltip="true"
+        >
+          <template slot-scope="{ row }">
+            <span>{{ row.type === 1 ? "课程目录" : "轮播图" }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
           label="发布时间"
           prop="create_time"
           align="center"

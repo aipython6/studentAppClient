@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function allBookChapter() {
   return request({
-    url: '/bookList/all',
+    url: '/book/all',
     method: 'GET'
   })
 }
