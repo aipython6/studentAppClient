@@ -7,8 +7,8 @@
     />
 
     <breadcrumb class="breadcrumb-container" />
-
     <div class="right-menu">
+      <ShowTime />
       <el-dropdown class="avatar-container" trigger="click">
         <div class="avatar-wrapper">
           <img :src="user.avatar" class="user-avatar" />
@@ -34,10 +34,12 @@
 import { mapGetters } from "vuex";
 import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
+import ShowTime from "@/components/ShowTime";
 export default {
   components: {
     Breadcrumb,
     Hamburger,
+    ShowTime,
   },
   computed: {
     ...mapGetters(["sidebar", "user"]),
@@ -47,8 +49,14 @@ export default {
       this.$store.dispatch("app/toggleSideBar");
     },
     async logout() {
-      await this.$store.dispatch("user/logout");
-      this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+      this.$confirm("是否退出?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(async () => {
+        await this.$store.dispatch("user/logout");
+        this.$router.push(`/login?redirect=${this.$route.fullPath}`);
+      });
     },
   },
 };

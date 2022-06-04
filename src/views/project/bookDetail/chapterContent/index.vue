@@ -3,7 +3,7 @@
     <div class="baseinfo">
       <span class="bname">{{ obj.bname }}</span>
       <span class="cname">{{ obj.cname }}</span>
-      <span class="name">第{{ obj.name }}节</span>
+      <span class="name">{{ obj.name }}</span>
     </div>
     <div>
       <Header
@@ -41,7 +41,7 @@
           :show-overflow-tooltip="true"
         >
           <template slot-scope="{ row }">
-            <span>第{{ row.pname }}节</span>
+            <span>{{ row.pname }}</span>
           </template>
         </el-table-column>
         <el-table-column

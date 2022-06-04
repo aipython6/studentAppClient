@@ -4,7 +4,7 @@ import store from '@/store'
 import { getToken, getUsername } from '@/utils/auth'
 import Cookies from 'js-cookie'
 
-console.log(process.env.VUE_APP_BASE_API)
+// console.log(process.env.VUE_APP_BASE_API)
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
