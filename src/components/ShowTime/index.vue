@@ -1,15 +1,24 @@
 <template>
   <!-- 显示时间的组件 -->
   <div class="time">
-    <span>今天是{{ date }}</span>
-    <span>{{ week }}</span>
-    <span style="color: #b553f2">(当前时间{{ showtime }})</span>
+    <span class="weather">
+      <span>今天是{{ date }}</span>
+      <span>{{ week }}</span>
+      <span style="color: #b553f2">(当前时间{{ showtime }})</span>
+      <span style="margin: 0 10px 0 20px">{{ weather.temp }}</span>
+      <span>{{ weather.text }}</span>
+      <img
+        :src="'./weatherIcon/' + weather.icon + '.png'"
+        width="30"
+        height="30"
+      />
+    </span>
   </div>
 </template>
 <script>
 import moment from "moment";
 import getWeek from "@/utils/getWeek";
-import axios from "axios";
+import { mapGetters } from "vuex";
 export default {
   name: "ShowTime",
   data() {
@@ -17,13 +26,15 @@ export default {
       date: undefined,
       week: undefined,
       showtime: "",
-      weather: "",
+      src: "./weatherIcon/104.png",
     };
+  },
+  computed: {
+    ...mapGetters(["weather"]),
   },
   mounted() {
     this.getDate();
     this.start();
-    // this.getWeather();
   },
   methods: {
     // 当前时间
@@ -44,27 +55,28 @@ export default {
       this.date = moment().format("YYYY年MM月DD日");
       this.week = getWeek(moment().day());
     },
-    getWeather() {
-      const location = "101250401";
-      const key = "b4e661a4527649d7b5ddee0bb95cdfa5";
-      axios
-        .get({
-          url: "https://devapi.qweather.com/v7/weather/now",
-          params: { location: location, key: key },
-        })
-        .then((res) => {
-          console.log(res);
-        });
-    },
   },
 };
 </script>
 <style lang="scss" scoped>
 .time {
   position: absolute;
-  right: 100px;
+  right: 90px;
   font-size: 14px;
   float: left;
   color: #909399;
+  .weather {
+    position: relative;
+    right: 10px;
+    span {
+      &::nth-child(2) {
+        margin-right: 5px;
+      }
+    }
+    img {
+      position: relative;
+      top: 10px;
+    }
+  }
 }
 </style>

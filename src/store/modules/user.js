@@ -7,7 +7,8 @@ const getDefaultState = () => {
     token: getToken(),
     username: getUsername(),
     user: {},
-    hasInfo: ''
+    hasInfo: '',
+    weather: {}
   }
 }
 
@@ -28,6 +29,9 @@ const mutations = {
   },
   SET_INFO: (state, info) => {
     state.hasInfo = info
+  },
+  SET_WEATHER: (state, weather) => {
+    state.weather = weather
   }
 }
 
@@ -54,12 +58,12 @@ const actions = {
   getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
       getInfo(state.username).then(response => {
-        const { content } = response
-        // console.log(content)
+        const { content, weather } = response
         if (!content) {
           return reject('验证失败,请重新登录')
         }
         commit('SET_USER', content)
+        commit('SET_WEATHER', { temp: weather.now.temp + '°C', icon: weather.now.icon, text: weather.now.text })
         commit('SET_INFO')
         resolve(content)
       }).catch(error => {
