@@ -8,9 +8,9 @@
       <span style="margin: 0 10px 0 20px">{{ weather.temp }}</span>
       <span>{{ weather.text }}</span>
       <img
-        :src="'./weatherIcon/' + weather.icon + '.png'"
-        width="30"
-        height="30"
+      :src="weather.icon"
+      width="30"
+      height="30"
       />
     </span>
   </div>
@@ -35,6 +35,7 @@ export default {
   mounted() {
     this.getDate();
     this.start();
+    console.log(this.weather)
   },
   methods: {
     // 当前时间
