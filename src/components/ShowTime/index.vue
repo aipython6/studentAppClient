@@ -8,7 +8,7 @@
       <span style="margin: 0 10px 0 20px">{{ weather.temp }}</span>
       <span>{{ weather.text }}</span>
       <img
-      :src="weather.icon"
+      :src="weather.src"
       width="30"
       height="30"
       />
@@ -26,7 +26,6 @@ export default {
       date: undefined,
       week: undefined,
       showtime: "",
-      src: "./weatherIcon/104.png",
     };
   },
   computed: {
@@ -35,7 +34,6 @@ export default {
   mounted() {
     this.getDate();
     this.start();
-    console.log(this.weather)
   },
   methods: {
     // 当前时间

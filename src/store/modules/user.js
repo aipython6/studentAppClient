@@ -63,7 +63,7 @@ const actions = {
           return reject('验证失败,请重新登录')
         }
         commit('SET_USER', content)
-        commit('SET_WEATHER', { temp: weather.now.temp + '°C', icon: './weatherIcon/' + weather.now.icon + '.png', text: weather.now.text })
+        commit('SET_WEATHER', weather)
         commit('SET_INFO')
         resolve(content)
       }).catch(error => {
